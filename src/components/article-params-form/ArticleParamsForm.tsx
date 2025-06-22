@@ -25,14 +25,14 @@ type ArticleParamsFormProps = {
 };
 
 export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setMenuIsOpen] = useState(false);
 	const [articleState, setArticleState] = useState(defaultArticleState);
 	const formArticleRef = useRef<HTMLDivElement>(null);
 
 	useOutsideClickClose({
-		isOpen,
+		isOpen: isMenuOpen,
 		rootRef: formArticleRef,
-		onChange: setIsOpen,
+		onChange: setMenuIsOpen,
 	});
 
 	const handleChange = (key: keyof ArticleStateType) => {
@@ -57,15 +57,18 @@ export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
 
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
+			<ArrowButton
+				isOpen={isMenuOpen}
+				onClick={() => setMenuIsOpen(!isMenuOpen)}
+			/>
 			<aside
-				className={clsx(styles.container, isOpen && styles.container_open)}
+				className={clsx(styles.container, isMenuOpen && styles.container_open)}
 				ref={formArticleRef}>
 				<form
 					className={styles.form}
 					onSubmit={handleSubmit}
 					onReset={handleReset}>
-					<div className={clsx(styles.controlContainer)}>
+					<div className={styles.controlContainer}>
 						<Text
 							as={'h2'}
 							weight={800}
